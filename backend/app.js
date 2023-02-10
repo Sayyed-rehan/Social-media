@@ -73,7 +73,7 @@ app.post("/login", async(req,res)=>{
 })
 
 
-//add post
+//create post
 app.post("/post", (req,res)=>{
 
     const data = new Post(req.body)
@@ -86,13 +86,26 @@ app.post("/post", (req,res)=>{
 })
 
 
-//read post
+//read all post
 app.get("/getpost", async(req,res)=>{
 
     const data = await Post.find()
     res.json({
         success:true,
         mess:"got all posts",
+        data:data
+    })
+})
+
+
+//read post by headings
+app.get("/getPostByHeading", async(req,res)=>{
+
+    const {heading} = req.query
+    const data = await Post.find({heading:{$regex:heading, $options:"i"}})
+    res.json({
+        success:true,
+        mess:"got post by headnig",
         data:data
     })
 })
